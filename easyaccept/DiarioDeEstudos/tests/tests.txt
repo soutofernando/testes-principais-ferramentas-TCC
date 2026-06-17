@@ -1,0 +1,30 @@
+# Usuario adiciona anotacao e consulta pelo indice 0
+adicionarAnotacao texto="Estudei Java" data="17/06/2026"
+expect "Estudei Java" pesquisaAnotacao index=0
+
+
+adicionarAnotacao texto="Nao estudei para Java" data="29/05/2026" avaliacao=7.5
+expect "Nao estudei para Java" pesquisaAnotacao index=1
+
+
+adicionarAnotacao texto="Nao estudei para Java 2" data="29/05/2026" avaliacao=7.5
+expect "INVALIDO" pesquisaAnotacao index=9999
+
+
+# Usuario lista todas as anotacoes
+
+expect "Teste/2026 Data: 17/06/2026 Texto: Estudei Java Data: 29/05/2026 Texto: Nao estudei para Java Data: 29/05/2026 Texto: Nao estudei para Java 2" listarAnotacoes
+
+#Desempenho
+
+adicionarAnotacao texto="A" data="10/10/2010" avaliacao=6
+expect 5.25 meuDesempenho
+
+adicionarAnotacao texto="A" data="10/10/2010"
+expect 4.2 meuDesempenho
+
+#Compressão 
+
+expect "MUITO BOM" statusCompreensao index=1
+expect "MUITO BOM" statusCompreensao index=2
+expect "ATENCAO!" statusCompreensao index=0
