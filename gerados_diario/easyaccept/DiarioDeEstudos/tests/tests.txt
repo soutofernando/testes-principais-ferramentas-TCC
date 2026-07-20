@@ -1,0 +1,85 @@
+# --- Seção: Estado inicial do diário ---
+# Facade padrão: dono="Teste", ano=2026; diário sem anotações
+
+expectWithin 0.01 0 meuDesempenho
+expect "Teste/2026" listarAnotacoes
+
+# --- Seção: Adicionar anotação sem autoavaliação ---
+# Caminho feliz: texto e data válidos; avaliação implícita 0
+
+expect true adicionarAnotacao texto="Estudei Java" data="17/06/2026"
+expect "Estudei Java" pesquisaAnotacao index=0
+expectWithin 0.01 0 meuDesempenho
+
+# --- Seção: Adicionar anotação com autoavaliação ---
+# Caminho feliz: overload com avaliacao
+
+expect true adicionarAnotacao texto="Nao estudei para Java" data="29/05/2026" avaliacao=7.5
+expect "Nao estudei para Java" pesquisaAnotacao index=1
+expectWithin 0.01 3.75 meuDesempenho
+
+expect true adicionarAnotacao texto="Nao estudei para Java 2" data="29/05/2026" avaliacao=7.5
+expect "Nao estudei para Java 2" pesquisaAnotacao index=2
+expectWithin 0.01 5 meuDesempenho
+
+# --- Seção: Pesquisa com índice inválido ---
+# Índice fora dos limites retorna "INVALIDO"
+
+expect "INVALIDO" pesquisaAnotacao index=9999
+expect "INVALIDO" pesquisaAnotacao index=3
+
+# --- Seção: Listagem de anotações ---
+# Formato: dono/ano seguido das anotações (Data + Texto)
+
+expect "Teste/2026 Data: 17/06/2026 Texto: Estudei Java Data: 29/05/2026 Texto: Nao estudei para Java Data: 29/05/2026 Texto: Nao estudei para Java 2" listarAnotacoes
+
+# --- Seção: Média de compreensão (meuDesempenho) ---
+# Média aritmética das autoavaliações; anotação sem avaliação conta como 0
+
+expect true adicionarAnotacao texto="A" data="10/10/2010" avaliacao=6
+expectWithin 0.01 5.25 meuDesempenho
+
+expect true adicionarAnotacao texto="A" data="10/10/2010"
+expectWithin 0.01 4.2 meuDesempenho
+
+# --- Seção: Status de compreensão por faixa ---
+# autoAvaliacao 0 ou ausente: "ATENCAO!"
+# (0, 5]: "REGULAR"
+# (5, 7]: "BOM"
+# (7, 9): "MUITO BOM"
+# [9, 10]: "EXCELENTE"
+
+expect "ATENCAO!" statusCompreensao index=0
+expect "MUITO BOM" statusCompreensao index=1
+expect "MUITO BOM" statusCompreensao index=2
+expect "BOM" statusCompreensao index=3
+expect "ATENCAO!" statusCompreensao index=4
+
+# --- Seção: Faixas de status — limites e bordas ---
+# Valores exatamente nos limites das faixas de autoavaliação
+
+expect true adicionarAnotacao texto="Limite regular" data="01/01/2026" avaliacao=5
+expect "REGULAR" statusCompreensao index=5
+
+expect true adicionarAnotacao texto="Limite bom inferior" data="02/01/2026" avaliacao=5.01
+expect "BOM" statusCompreensao index=6
+
+expect true adicionarAnotacao texto="Limite bom superior" data="03/01/2026" avaliacao=7
+expect "BOM" statusCompreensao index=7
+
+expect true adicionarAnotacao texto="Limite muito bom" data="04/01/2026" avaliacao=8.99
+expect "MUITO BOM" statusCompreensao index=8
+
+expect true adicionarAnotacao texto="Limite excelente inferior" data="05/01/2026" avaliacao=9
+expect "EXCELENTE" statusCompreensao index=9
+
+expect true adicionarAnotacao texto="Limite excelente superior" data="06/01/2026" avaliacao=10
+expect "EXCELENTE" statusCompreensao index=10
+
+# --- Seção: Fluxo integrado — consultas finais ---
+# Após todas as operações, validar pesquisa e listagem consolidadas
+
+expect "Limite excelente superior" pesquisaAnotacao index=10
+expect "INVALIDO" pesquisaAnotacao index=11
+expect "Teste/2026 Data: 17/06/2026 Texto: Estudei Java Data: 29/05/2026 Texto: Nao estudei para Java Data: 29/05/2026 Texto: Nao estudei para Java 2 Data: 10/10/2010 Texto: A Data: 10/10/2010 Texto: A Data: 01/01/2026 Texto: Limite regular Data: 02/01/2026 Texto: Limite bom inferior Data: 03/01/2026 Texto: Limite bom superior Data: 04/01/2026 Texto: Limite muito bom Data: 05/01/2026 Texto: Limite excelente inferior Data: 06/01/2026 Texto: Limite excelente superior" listarAnotacoes
+expectWithin 0.01 6 meuDesempenho
