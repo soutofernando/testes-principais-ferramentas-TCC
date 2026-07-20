@@ -1,0 +1,27 @@
+Tenho esse prompt manual que uso para pedir à IA que gere testes de aceitação em [NOME_DA_FERRAMENTA] para labs de Java com classe Fachada:
+
+[PROMPT_MANUAL_DA_FERRAMENTA]
+
+Quero que você transforme isso num prompt refinado — mais completo, mas com a mesma intenção. O refinado vai ser usado depois para gerar os testes de aceitação; o aluno implementa o sistema e os testes precisam ser especificação executável (se falhar, o problema é da implementação, não do teste).
+
+O prompt refinado deve:
+- manter tudo que já está no manual (não tire regras)
+- abrir com papel da IA e missão (especificação executável; falha = culpa do aluno)
+- deixar claro entradas, saída obrigatória e o que NÃO gerar
+- restringir contexto: só facade + spec, sem classes internas
+- trazer links oficiais da ferramenta e versão alvo (e o que evitar)
+- trazer exemplos reais de sintaxe e formas de como deve ser escrito da ferramenta 
+- ter regras absolutas da facade (contrato imutável, como invocar, o que é proibido)
+- ter checklist Use | Não use da sintaxe da ferramenta
+- explicar isolamento entre testes/cenários
+- detalhar cobertura obrigatória: feliz, falha, validação, cálculo, estrutural, fluxo integrado, borda
+- mostrar estrutura interna do arquivo de saída (esqueleto)
+- incluir padrões de implementação específicos da ferramenta (wrappers, steps, comandos)
+- explicar como derivar expectativas só da spec + facade
+- ter seção de nomenclatura
+- ter anti-padrões proibidos
+- ter checklist de validação mental antes de entregar
+- definir formato de entrega (só o arquivo, sem explicação)
+- terminar com placeholders para especificação, facade e metadados do projeto
+
+Responda só com o texto do prompt refinado, pronto para salvar em arquivo .txt.
